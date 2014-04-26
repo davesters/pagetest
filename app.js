@@ -3,9 +3,12 @@
 var express = require('express')
   , mongoose = require('mongoose')
   , UserModel = require('./models/user')
+  , TestModel = require('./models/test')
   , User = mongoose.model('User')
+  , Test = mongoose.model('Test')
   , welcome = require('./controllers/welcome')
   , users = require('./controllers/users')
+  , tests = require('./controllers/tests')
   , http = require('http')
   , path = require('path')
   , engine = require('ejs-locals')
@@ -121,6 +124,8 @@ function redirectAuthenticated(req, res, next){
 // Routing
 
 app.get('/', welcome.index);
+
+// Users
 app.get('/login', redirectAuthenticated, users.login);
 app.get('/reset_password', redirectAuthenticated, users.reset_password);
 app.post('/reset_password', redirectAuthenticated, users.generate_password_reset);
@@ -133,7 +138,13 @@ app.get('/account', ensureAuthenticated, users.account);
 app.post('/account', ensureAuthenticated, users.userValidations, users.update);
 app.get('/dashboard', ensureAuthenticated, users.dashboard);
 app.get('/logout', users.logout);
-app.get('/users', ensureAuthenticated, users.list); // for illustrative purposes only
+
+// Tests
+app.get('/tests', ensureAuthenticated, tests.index);
+app.get('/tests/new', ensureAuthenticated, tests.newTest);
+app.post('/tests/new', ensureAuthenticated, tests.testValidations, tests.create);
+
+// 404 Not Found
 app.all('*', welcome.not_found);
 
 // Start Server w/ DB Connection

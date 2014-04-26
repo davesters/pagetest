@@ -4,6 +4,8 @@
     <ul class="nav">
       <li><a href="/">Home</a></li>
       <% if(userIsAuthenticated){ %>
+        <li><a href="/tests">Tests</a></li>
+        <li><a href="/tests/new">New Test</a></li>
         <li><a href="/account">Account</a></li>
         <li><a href="/logout">Logout</a></li>
       <% } else { %>
