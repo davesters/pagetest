@@ -1,16 +1,11 @@
-// Module Dependencies and Setup
+// Boilerplate and foundational code adapted from https://github.com/hiattp/express3-mongodb-bootstrap-demo
 
 var express = require('express')
   , mongoose = require('mongoose')
   , UserModel = require('./models/user')
-  , TestModel = require('./models/test')
   , User = mongoose.model('User')
-  , Test = mongoose.model('Test')
-  , welcome = require('./controllers/welcome')
-  , users = require('./controllers/users')
-  , tests = require('./controllers/tests')
+  , routes = require('./routes')
   , http = require('http')
-  , path = require('path')
   , engine = require('ejs-locals')
   , flash = require('connect-flash')
   , passport = require('passport')
@@ -18,6 +13,7 @@ var express = require('express')
   , expressValidator = require('express-validator')
   , mailer = require('express-mailer')
   , config = require('./config')
+  , path = require('path')
   , app = express();
 
 app.engine('ejs', engine);
@@ -29,15 +25,14 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(expressValidator);
 app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
+app.use(express.cookieParser('209nwgosg989hi3hgfurbrg3g23'));
 app.use(express.session());
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Helpers
-
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
   res.locals.userIsAuthenticated = req.isAuthenticated(); // check for user authentication
   res.locals.user = req.user; // make user available in all views
   res.locals.errorMessages = req.flash('error'); // make error alert messages available in all views
@@ -47,7 +42,6 @@ app.use(function(req, res, next){
 });
 
 // Mailer Setup
-
 mailer.extend(app, {
   from: 'no-reply@example.com',
   host: 'smtp.mandrillapp.com', // hostname
@@ -60,23 +54,7 @@ mailer.extend(app, {
   }
 });
 
-// Routing Initializers
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
-
-// Error Handling
-
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-} else {
-  app.use(function(err, req, res, next) {
-    res.render('errors/500', { status: 500 });
-  });
-}
-
 // Database Connection
-
 if ('development' == app.get('env')) {
   mongoose.connect('mongodb://localhost/pagetest');
 } else {
@@ -84,7 +62,6 @@ if ('development' == app.get('env')) {
 }
 
 // Authentication
-
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -109,46 +86,12 @@ passport.use(new LocalStrategy(
   }
 ));
 
-function ensureAuthenticated(req, res, next){
-  if (req.isAuthenticated()) return next();
-  req.flash('error', 'Please sign in to continue.');
-  var postAuthDestination = req.url;
-  res.redirect('/login?postAuthDestination='+postAuthDestination);
-}
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(app.router);
 
-function redirectAuthenticated(req, res, next){
-  if (req.isAuthenticated()) return res.redirect('/');
-  next();
-}
-
-// Routing
-
-app.get('/', welcome.index);
-
-// Users
-app.get('/login', redirectAuthenticated, users.login);
-app.get('/reset_password', redirectAuthenticated, users.reset_password);
-app.post('/reset_password', redirectAuthenticated, users.generate_password_reset);
-app.get('/password_reset', redirectAuthenticated, users.password_reset);
-app.post('/password_reset', redirectAuthenticated, users.process_password_reset);
-app.post('/login', redirectAuthenticated, users.authenticate);
-app.get('/register', redirectAuthenticated, users.register);
-app.post('/register', redirectAuthenticated, users.userValidations, users.create);
-app.get('/account', ensureAuthenticated, users.account);
-app.post('/account', ensureAuthenticated, users.userValidations, users.update);
-app.get('/dashboard', ensureAuthenticated, users.dashboard);
-app.get('/logout', users.logout);
-
-// Tests
-app.get('/tests', ensureAuthenticated, tests.index);
-app.get('/tests/new', ensureAuthenticated, tests.newTest);
-app.post('/tests/new', ensureAuthenticated, tests.testValidations, tests.create);
-
-// 404 Not Found
-app.all('*', welcome.not_found);
+routes.initRoutes(app, express);
 
 // Start Server w/ DB Connection
-
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
