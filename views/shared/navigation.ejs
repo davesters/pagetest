@@ -1,16 +1,23 @@
-<div class="navbar navbar-static-top">
-  <div class="navbar-inner">
-    <a class="brand" href="/">PageTest</a>
-    <ul class="nav">
-      <li><a href="/">Home</a></li>
-      <% if(userIsAuthenticated){ %>
-        <li><a href="/tests">Tests</a></li>
-        <li><a href="/tests/new">New Test</a></li>
-        <li><a href="/account">Account</a></li>
-        <li><a href="/logout">Logout</a></li>
-      <% } else { %>
-        <li><a href="/register">Register</a></li>
-      <% } %>
-    </ul>
-  </div>
+<div class="col-xs-12">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">PageTest</a>
+
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <% if (userIsAuthenticated) { %>
+                    <li><a href="/sites">Sites</a></li>
+                <% } %>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <% if (userIsAuthenticated) { %>
+                    <li><a href="/account">Account</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/register">Register</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
 </div>

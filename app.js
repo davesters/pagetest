@@ -95,7 +95,13 @@ routes.initRoutes(app, express);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
-  http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
-  });
+
+  if (app.get('env') != 'development') {
+    http.createServer(app).listen(app.get('port'), function() {
+      console.log('Express server listening on port ' + app.get('port'));
+    });
+  }
+
 });
+
+module.exports = app;

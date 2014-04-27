@@ -1,7 +1,9 @@
 var welcome = require('./controllers/welcome')
   , UserModel = require('./models/user')
   , TestModel = require('./models/test')
+  , SiteModel = require('./models/site')
   , users = require('./controllers/users')
+  , sites = require('./controllers/sites')
   , tests = require('./controllers/tests');
 
 exports.initRoutes = function (app, express) {
@@ -34,6 +36,11 @@ exports.initRoutes = function (app, express) {
   app.get('/tests', ensureAuthenticated, tests.index);
   app.get('/tests/new', ensureAuthenticated, tests.newTest);
   app.post('/tests/new', ensureAuthenticated, tests.testValidations, tests.create);
+
+  // Sites
+  app.get('/sites', ensureAuthenticated, sites.index);
+  app.get('/sites/new', ensureAuthenticated, sites.newSite);
+  app.post('/sites/new', ensureAuthenticated, sites.testValidations, sites.create);
 
   // 404 Not Found
   app.all('*', welcome.not_found);
