@@ -1,0 +1,10 @@
+<% layout(layoutPath) -%>
+
+<div class="col-xs-10">
+    <h2><%= test.name %></h2>
+
+    <h4>Site: <a href="/sites/view/<%= site._id %>"><%= site.name %></a></h4>
+    <h4>URL: <%= site.urlBase %><%= test.url %></h4><br />
+
+    <a href="/tests/edit/<%= test._id %>" class="btn btn-primary">Edit Test</a>
+</div>

@@ -33,14 +33,19 @@ exports.initRoutes = function (app, express) {
   app.get('/logout', users.logout);
 
   // Tests
-  app.get('/tests', ensureAuthenticated, tests.index);
-  app.get('/tests/new', ensureAuthenticated, tests.newTest);
+  app.get('/tests/view/:test_id', ensureAuthenticated, tests.view);
+  app.get('/tests/new/:site_id', ensureAuthenticated, tests.newTest);
   app.post('/tests/new', ensureAuthenticated, tests.testValidations, tests.create);
+  app.get('/tests/edit/:test_id', ensureAuthenticated, tests.edit);
+  app.post('/tests/edit', ensureAuthenticated, tests.update);
 
   // Sites
   app.get('/sites', ensureAuthenticated, sites.index);
+  app.get('/sites/view/:site_id', ensureAuthenticated, sites.view);
   app.get('/sites/new', ensureAuthenticated, sites.newSite);
-  app.post('/sites/new', ensureAuthenticated, sites.testValidations, sites.create);
+  app.post('/sites/new', ensureAuthenticated, sites.siteValidations, sites.create);
+  app.get('/sites/edit/:site_id', ensureAuthenticated, sites.edit);
+  app.post('/sites/edit', ensureAuthenticated, sites.update);
 
   // 404 Not Found
   app.all('*', welcome.not_found);

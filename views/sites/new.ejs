@@ -1,0 +1,22 @@
+<% layout(layoutPath) -%>
+
+<div class="col-xs-4">
+    <h2>Create New Site</h2>
+
+    <form action="/sites/new" method="post">
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" name="name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>URL Base:</label>
+            <input type="text" name="urlBase" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Branch:</label>
+            <input type="text" name="branchName" class="form-control" />
+        </div><br />
+
+        <input type="submit" class="btn btn-primary" value="Create Site" />
+    </form>
+</div>

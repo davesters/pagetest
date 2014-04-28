@@ -28,33 +28,23 @@ exports.authenticate = function(req, res, next) {
 }
 
 // Get registration page
-exports.register = function(req, res){
+exports.register = function(req, res) {
   res.render('users/new', {user: new User({})});
 }
 
 // Log user out and redirect to home page
-exports.logout = function(req, res){
+exports.logout = function(req, res) {
   req.logout();
   res.redirect('/');
 }
 
 // Account page
-exports.account = function(req,res){
+exports.account = function(req, res) {
   res.render('users/edit');
 }
 
-// List all users
-exports.list = function(req, res, next){
-  User.find(function(err,users){
-    if(err) return next(err);
-    res.render('users/index',{
-      users:users
-    });
-  });
-}
-
 // Update user
-exports.update = function(req, res, next){
+exports.update = function(req, res, next) {
   var user = req.user;
   // remove password attribute from form if not changing
   if (!req.body.password) delete req.body.password;

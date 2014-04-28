@@ -58,7 +58,7 @@ mailer.extend(app, {
 if ('development' == app.get('env')) {
   mongoose.connect('mongodb://localhost/pagetest');
 } else {
-  // insert db connection for production
+  mongoose.connect('mongodb://localhost/pagetest');
 }
 
 // Authentication
@@ -96,7 +96,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
 
-  if (app.get('env') != 'development') {
+  if (app.get('env') !== 'development') {
     http.createServer(app).listen(app.get('port'), function() {
       console.log('Express server listening on port ' + app.get('port'));
     });
@@ -104,4 +104,6 @@ db.once('open', function callback () {
 
 });
 
-module.exports = app;
+if (app.get('env') === 'development') {
+  module.exports = app;
+}
