@@ -54,13 +54,6 @@ mailer.extend(app, {
   }
 });
 
-// Database Connection
-if ('development' == app.get('env')) {
-  mongoose.connect('mongodb://localhost/pagetest');
-} else {
-  mongoose.connect('mongodb://localhost/pagetest');
-}
-
 // Authentication
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -92,6 +85,8 @@ app.use(app.router);
 routes.initRoutes(app, express);
 
 // Start Server w/ DB Connection
+mongoose.connect(config[app.get('env')].MONGODB);
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
