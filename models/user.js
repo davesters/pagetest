@@ -4,7 +4,6 @@ var mongoose = require('mongoose')
   , hashKey = '19f8ghejndbsjndf08249734yuegoifd';
 
 var UserSchema = new Schema({
-  createdAt : { type: Date, default: Date.now },
   username : { type: String, required: true, index: { unique: true } },
   firstName : { type: String, required: true, index: { unique: false } },
   lastName : { type: String, required: true, index: { unique: false } },

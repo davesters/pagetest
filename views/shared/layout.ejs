@@ -4,20 +4,24 @@
     <title>PageTest</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='/css/bootstrap.min.css' />
-    <link rel='stylesheet' href='/css/bootstrap-responsive.min.css' />
     <link rel='stylesheet' href='/css/style.css' />
-    <script src="/js/jquery-1.9.1.js"></script>
+    <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
   </head>
+
   <body>
-    <% include navigation.ejs %>
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span12">
-          <% include alert_messages.ejs %>
-          <%- body -%>
+    <header class="container">
+        <div class="row">
+            <% include navigation.ejs %>
         </div>
+    </header>
+
+    <div class="container">
+      <div class="row">
+          <% include alert_messages.ejs %>
+
+          <%- body -%>
       </div>
     </div>
   </body>

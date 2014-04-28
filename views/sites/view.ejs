@@ -1,0 +1,32 @@
+<% layout(layoutPath) -%>
+
+<div class="col-xs-12">
+    <a href="/sites/edit/<%= site._id %>" class="btn btn-primary pull-right">Edit Site</a>
+    <h2><%= site.name %></h2>
+
+    <h4>URL Base: <%= site.urlBase %></h4>
+    <h4>Branch to track: <%= site.branchName %></h4>
+
+    <hr />
+    <h3>Tests</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (var i = 0; i < tests.length; i++) { %>
+            <tr>
+                <td><a href="/tests/view/<%= tests[i]._id %>"><%= tests[i].name %></a></td>
+                <td><a href="<%= site.urlBase %><%= tests[i].url %>" target="_blank"><%= site.urlBase %><%= tests[i].url %></a></td>
+                <td><a href="/tests/edit/<%= tests[i]._id %>">edit</a></td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table><br />
+
+    <p><a href="/tests/new/<%= site._id %>" class="btn btn-primary">Add new Test</a></p>
+</div>

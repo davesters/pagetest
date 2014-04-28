@@ -1,0 +1,23 @@
+<% layout(layoutPath) -%>
+
+<div class="col-xs-4">
+    <h2>Edit Site</h2>
+
+    <form action="/sites/edit" method="post">
+        <input type="hidden" name="_id" value="<%= site._id %>" />
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" name="name" class="form-control" value="<%= site.name || "" %>"/>
+        </div>
+        <div class="form-group">
+            <label>URL Base:</label>
+            <input type="text" name="urlBase" class="form-control" value="<%= site.urlBase || "" %>"/>
+        </div>
+        <div class="form-group">
+            <label>Branch:</label>
+            <input type="text" name="branchName" class="form-control" value="<%= site.branchName || "" %>"/>
+        </div><br />
+
+        <input type="submit" class="btn btn-primary" value="Update Site" />
+    </form>
+</div>
