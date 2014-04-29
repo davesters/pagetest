@@ -1,6 +1,8 @@
 var mongoose = require('mongoose')
   , Test = mongoose.model('Test')
-  , Site = mongoose.model('Site');
+  , Site = mongoose.model('Site')
+  , config = require('./../config')
+  , WebPageTest = require('webpagetest');
 
 exports.view = function(req, res) {
   Test.findById(req.param('test_id'), function (err, test) {
@@ -70,6 +72,18 @@ exports.update = function(req, res, next) {
       }
 
       return res.redirect('/sites/view/' + test.siteId);
+    });
+  });
+};
+
+exports.runTest = function(req, res) {
+  Test.findById(req.param('test_id'), function (err, test) {
+    Site.findById(test.siteId, function (err, site) {
+      var wpt = new WebPageTest('www.webpagetest.org', config[process.env.NODE_ENV].WEBPAGETEST_APIKEY);
+
+      wpt.runTest(site.urlBase + test.url, { pollResults: 5, timeout: 60 }, function(err, data) {
+        res.render('tests/run', { test: test, site: site, data: data });
+      });
     });
   });
 };

@@ -38,6 +38,7 @@ exports.initRoutes = function (app, express) {
   app.post('/tests/new', ensureAuthenticated, tests.testValidations, tests.create);
   app.get('/tests/edit/:test_id', ensureAuthenticated, tests.edit);
   app.post('/tests/edit', ensureAuthenticated, tests.update);
+  app.get('/tests/run/:test_id', ensureAuthenticated, tests.runTest);
 
   // Sites
   app.get('/sites', ensureAuthenticated, sites.index);

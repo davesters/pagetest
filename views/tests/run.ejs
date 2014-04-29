@@ -6,7 +6,5 @@
     <h4>Site: <a href="/sites/view/<%= site._id %>"><%= site.name %></a></h4>
     <h4>URL: <%= site.urlBase %><%= test.url %></h4><br />
 
-    <a href="/tests/edit/<%= test._id %>" class="btn btn-primary">Edit Test</a>
-    <a href="/tests/run/<%= test._id %>" class="btn btn-primary">Run Test</a>
-
+    <%= JSON.stringify(data) %>
 </div>
