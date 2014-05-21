@@ -81,7 +81,7 @@ exports.runTest = function(req, res) {
     Site.findById(test.siteId, function (err, site) {
       var wpt = new WebPageTest('www.webpagetest.org', config[process.env.NODE_ENV].WEBPAGETEST_APIKEY);
 
-      wpt.runTest(site.urlBase + test.url, { pollResults: 5, timeout: 60 }, function(err, data) {
+      wpt.runTest(site.urlBase + test.url, { pollResults: 5, timeout: 60, "runs":"2","emulateMobile":true,"breakDown":true }, function(err, data) {
         res.render('tests/run', { test: test, site: site, data: data });
       });
     });
